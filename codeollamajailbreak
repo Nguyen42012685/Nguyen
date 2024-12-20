@@ -3,24 +3,27 @@ import subprocess
 def query_ollama(model, prompt):
     """
     Interroge le modèle Ollama avec une requête.
-    :param model: Le nom du modèle à utiliser (ex. '3b').
+    :param model: Le nom du modèle à utiliser (ex. 'llama3.2:1b').
     :param prompt: La requête utilisateur.
     :return: La réponse de l'IA.
     """
     try:
+        print(f"Envoi de la requête à Ollama avec le modèle '{model}'...")
         process = subprocess.run(
             ['ollama', 'run', model, '--prompt', prompt],
             capture_output=True,
             text=True
         )
+        print(f"Sortie du processus : {process.stdout}")  # Afficher la sortie pour débogage
         return process.stdout.strip()
     except Exception as e:
+        print(f"Erreur lors de la requête : {e}")
         return f"Erreur lors de la requête : {e}"
 
 def adaptive_query(model, prompt):
     """
     Adapte la requête pour contourner les limitations détectées.
-    :param model: Le nom du modèle à utiliser (ex. '3b').
+    :param model: Le nom du modèle à utiliser (ex. 'llama3.2:1b').
     :param prompt: La requête initiale.
     :return: La meilleure réponse possible après adaptation.
     """
@@ -37,8 +40,8 @@ def adaptive_query(model, prompt):
     return initial_response
 
 if __name__ == "__main__":
-    # Nom du modèle (par exemple '3b')
-    model_name = "3b"
+    # Nom du modèle (par exemple 'llama3.2:1b')
+    model_name = "llama3.2:1b"
 
     # Requête initiale
     user_prompt = input("Entrez votre requête : ")
